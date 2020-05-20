@@ -1,0 +1,10 @@
+Para apartado 2-3. Usar la funcion turbofan_analysis con cada uno de los 4 parametros a variar y con un quinto parametro siempre *true*: convergent_only=true.
+
+ También, aunque dijo que no hacía falta liarse en optimizar nada, he probado en un segundo un optimizador de matlab y me ha sacado unos parámetros. Ya cuando salgan las gráficas y se vea la variación con cada parámetro, ya vermeos si tiene algo de sentido los parametros que ha sacado el optimizador. (Está ahí en el archivo thrust_optimize.m)
+
+
+
+Para apartados 4-5 habría que usar la misma función con convergent_only=false, y no sé si algo más en el cálculo final del empuje. 
+Con los parametros del principio, está adaptada en el flujo principal, y choked en el secundario. Así que  haciendo la tovera convergente-divergente ahí, se aprovecharía algo más de empuje.
+
+
