@@ -1,4 +1,4 @@
-function [F_sp, I_sp, F_ratio] = turbofan_analysis(alpha, pi_f, pi_LPC, pi_HPC, convergent_only) 
+function [F_sp, I_sp,F_ratio, eta_p, U_9, U_19, eta_p_0] = turbofan_analysis(alpha, pi_f, pi_LPC, pi_HPC, convergent_only) 
 % convergent_only:true impose convergent_only only nozzle, set to false to allow for
 % convergent-divergent nozzle.
 % 
@@ -38,6 +38,7 @@ function [F_sp, I_sp, F_ratio] = turbofan_analysis(alpha, pi_f, pi_LPC, pi_HPC, 
     T_0 = 288.15 - 0.0065*alt;
     p_0 = 101325*(T_0/288.15)^5.256;
     a_0 = sqrt(gamma_c*R_g*T_0);
+    U_0 = a_0 * M_0;
     
     delta_0 = (1 + (gamma_c-1)/2 * M_0^2)^(gamma_c/(gamma_c-1));
     theta_0 = 1 + (gamma_c-1)/2 * M_0^2;
@@ -111,4 +112,6 @@ function [F_sp, I_sp, F_ratio] = turbofan_analysis(alpha, pi_f, pi_LPC, pi_HPC, 
     F_sp = F_sp_core + F_sp_bypass;
     I_sp = F_sp * 1/(f*g);
     F_ratio = F_sp_core / F_sp;
+    eta_p_0 = ((2*(1+f)*U_9 + alpha*U_19 - (1+alpha)*U_0)*U_0)/((1+f)*U_9^2 + alpha*U_19^2 - (1+alpha)*U_0^2);
+    eta_p = ( 2*U_0 * ((1+f)*U_9 + alpha*U_19 - (1+alpha)*U_0  )   )  /  ((1+f)*U_9^2 + alpha*U_19^2 - (1+alpha)*U_0^2    );
 end

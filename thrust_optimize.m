@@ -7,6 +7,10 @@ x_0 = [7.2573, 1.1, 2.12, 4.12];
 lb = [7, 0.77, 1.1, 1.1];
 ub = [12.7, 2, 8, 8]; 
 
+% lb = [7, 0.77, 4, 4];
+% ub = [12.7, 1.6, 9, 9]; 
+
+
 options = optimoptions('fmincon','Display','iter','Algorithm','sqp','FiniteDifferenceType', 'central', 'OptimalityTolerance',1e-9,'ConstraintTolerance', 1e-9 ,'MaxIterations', 3000, 'MaxFunctionEvaluations', 5000, 'StepTolerance', 1e-5);
 
 A = [];
@@ -16,7 +20,9 @@ beq = [];
 nonlncn = [];
 [x,fval,exitflag,output] = fmincon(@turbofan_optimize,x_0,A,b,Aeq,beq,lb,ub,nonlncn, options)
 
-fprintf('\n\nF/m_dot: %f  Obtenido con: \n  alpha:%f \n  pi_f: %f \n  pi_LPC: %f \n  pi_HPC: %f \n',fval, x)
+fprintf('\n\n 4*F/m_dot * I_sp: %f  Obtenido con: \n  alpha:%f \n  pi_f: %f \n  pi_LPC: %f \n  pi_HPC: %f \n',fval, x)
+% fprintf('\n\nF/m_dot * I_sp: %f  Obtenido con: \n  alpha:%f \n  pi_f: %f \n  pi_LPC: %f \n  pi_HPC: %f \n',fval, x)
+% fprintf('\n\nF/m_dot: %f  Obtenido con: \n  alpha:%f \n  pi_f: %f \n  pi_LPC: %f \n  pi_HPC: %f \n',fval, x)
 function [n_F_sp] = turbofan_optimize(x) 
     % returns specific Thrust in negative form. 
     alpha = x(1);
@@ -45,6 +51,7 @@ function [n_F_sp] = turbofan_optimize(x)
     data.pi_ns = 0.99;
 
     
-    [a] = turbofan_analysis(alpha, pi_f, pi_LPC, pi_HPC, convergent); 
-    n_F_sp = -1.0 * a;
+    [tsp, isp] = turbofan_analysis(alpha, pi_f, pi_LPC, pi_HPC, convergent); 
+%     n_F_sp =  - isp - 4*tsp;
+%      n_F_sp = -1.0 * isp;
 end

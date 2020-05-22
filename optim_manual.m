@@ -12,7 +12,7 @@ function manual_optim()
     maxTsp = 0;
     param = zeros(1,4);
 
-    for alpha=linspace(4,14,30)
+    for alpha=linspace(4,12.9,30)
         for pi_f=linspace(0.6,1.6,30)
             for pi_LPC=linspace(4,10,30)
                 for pi_HPC=linspace(4,10,30)

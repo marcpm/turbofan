@@ -1,11 +1,11 @@
 clear;
-clc;
+% clc;
 %%%%%%%%
 % input
-alpha = 12.25;
+alpha = 12.7;
 pi_f = 1.52;
-pi_LPC =  4.1;
-pi_HPC = 6.3;
+pi_LPC =  3.9;
+pi_HPC = 6.0;
 convergent_only = true;
 %%%%%%%
 
@@ -69,10 +69,12 @@ function [F_sp, I_sp, F_ratio] = turbofan_run(alpha, pi_f, pi_LPC, pi_HPC, data,
     pi_ns = data.pi_ns ;
 
     % calcs
-    T_0 = 288.15 - 0.0065*alt;
+%     [T_0, a_00,p_0] = atmosisa(alt);
+   T_0 = 288.15 - 0.0065*alt;
     p_0 = 101325*(T_0/288.15)^5.256;
     a_0 = sqrt(gamma_c*R_g*T_0);
-    
+%     disp(a_0)
+%     disp(a_00)
     delta_0 = (1 + (gamma_c-1)/2 * M_0^2)^(gamma_c/(gamma_c-1));
     theta_0 = 1 + (gamma_c-1)/2 * M_0^2;
     
@@ -110,6 +112,7 @@ function [F_sp, I_sp, F_ratio] = turbofan_run(alpha, pi_f, pi_LPC, pi_HPC, data,
     M_9 = sqrt(2/(gamma_t-1) * ((p_t9_p0)^((gamma_t-1)/gamma_t) -1 ));
 
     fprintf('p_t9_p0: %f  >  %f\n', p_t9_p0, ((1+gamma_t)/2)^(gamma_t/(gamma_t-1)));
+    fprintf('M_9: %f\n', M_9);
     % convergent_only condition
     if ((M_9 > 1) && (convergent_only==true))
         M_9 = 1;
@@ -125,7 +128,8 @@ function [F_sp, I_sp, F_ratio] = turbofan_run(alpha, pi_f, pi_LPC, pi_HPC, data,
     p_t19_p0 = delta_0 * pi_d * pi_f * pi_ns;
     T_t19 = T_0*theta_0 * tau_f;
     M_19 = sqrt(2/(gamma_c-1) * ((p_t19_p0)^((gamma_c-1)/gamma_c) -1 ));
-    
+    fprintf('M_19: %f\n', M_19);
+
     % convergent_only condition
     if ((M_19 > 1) && (convergent_only==true))
         M_19 = 1;
